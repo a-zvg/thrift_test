@@ -1,0 +1,12 @@
+[requires]
+thrift/0.14.2
+
+[generators]
+cmake_find_package
+
+[options]
+thrift:shared=True
+
+[imports]
+bin, * -> ./bin
+lib, *.so* -> ./lib

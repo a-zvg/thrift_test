@@ -1,0 +1,37 @@
+version: "3"
+services:
+  server:
+    image: debian:bullseye-slim
+    restart: unless-stopped
+    container_name: server
+    working_dir: /opt/app
+    command: ./server
+    volumes:
+      - ./_build/bin/server:/opt/app/server
+      - ./_build/lib:/opt/app/lib
+    ports:
+      - "9090:9090"
+    environment:
+      - LD_LIBRARY_PATH=/opt/app/lib
+    networks:
+      - eth0
+
+  client:
+    image: debian:bullseye-slim
+    restart: on-failure
+    container_name: client
+    working_dir: /opt/app
+    command: ./client
+    volumes:
+      - ./_build/bin/client:/opt/app/client
+      - ./_build/lib:/opt/app/lib
+    environment:
+      - LD_LIBRARY_PATH=/opt/app/lib
+    depends_on:
+      - server
+    networks:
+      - eth0
+
+networks:
+  eth0:
+    driver: bridge
