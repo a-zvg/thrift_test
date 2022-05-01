@@ -15,15 +15,17 @@ services:
       - LD_LIBRARY_PATH=/opt/app/lib
 
   client:
-    image: debian:bullseye-slim
+    image: python:3.9.12-slim-bullseye
     restart: on-failure
     container_name: client
     working_dir: /opt/app
-    command: ./client
+    command: ./PythonClient.py
     volumes:
-      - ./_build/bin/client:/opt/app/client
-      - ./_build/lib:/opt/app/lib
+      - ./client/PythonClient.py:/opt/app/PythonClient.py
+      - ./_build/client/gen-py:/opt/app/gen-py
+      - ./.venv/:/opt/app/venv
     environment:
-      - LD_LIBRARY_PATH=/opt/app/lib
+      - VIRTUAL_ENV=/opt/app/venv
+      - PATH=/opt/app/venv/bin:/usr/bin:/bin
     depends_on:
       - server
