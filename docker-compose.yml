@@ -13,8 +13,6 @@ services:
       - "9090:9090"
     environment:
       - LD_LIBRARY_PATH=/opt/app/lib
-    networks:
-      - eth0
 
   client:
     image: debian:bullseye-slim
@@ -29,9 +27,3 @@ services:
       - LD_LIBRARY_PATH=/opt/app/lib
     depends_on:
       - server
-    networks:
-      - eth0
-
-networks:
-  eth0:
-    driver: bridge
